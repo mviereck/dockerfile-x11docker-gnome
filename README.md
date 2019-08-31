@@ -19,6 +19,14 @@ Gnome 3 desktop. Experimental.
  - Printing over CUPS with                      `--printer`
  - Webcam support with                          `--webcam`
 
+
+# Experimental image. Known issues:
+ - gnome-session terminates after some minutes, catched with a supervisor script. gnome-shell continues.
+ - gnome-control-center hangs for a while at some entries.
+ - gnome-usage crashes with a segfault.
+ - Wayland setups do not work.
+ - Logout does not work, use "Logout x11docker" in application menu instead.
+
 See `x11docker --help` for further options.
 
  # Screenshot
