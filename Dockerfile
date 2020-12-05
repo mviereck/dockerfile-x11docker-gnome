@@ -29,7 +29,7 @@
 #  - gnome-usage crashes with a segfault.
 #  - Wayland setups do not work.
 
-FROM ubuntu:19.10
+FROM ubuntu:20.04
 
 ENV LANG en_US.UTF-8
 
