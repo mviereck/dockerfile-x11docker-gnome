@@ -23,9 +23,9 @@ See `x11docker --help` for further options.
 
 # Known issues
  - Many shell extensions do not work properly.
- - gnome-control-center hangs for a while at some entries.
- - gnome-usage crashes with a segfault.
+ - `gnome-control-center` hangs for a while at some entries.
+ - `gnome-usage` crashes with a segfault.
  - Wayland setups do not work.
 
- # Screenshot
+# Screenshot
 ![screenshot](https://raw.githubusercontent.com/mviereck/x11docker/screenshots/screenshot-gnome.png "Gnome 3 desktop")

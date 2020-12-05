@@ -42,9 +42,11 @@ RUN apt-get update && \
       at-spi2-core \
       dbus \
       dbus-x11 \
+      libpulse0 \
       procps \
       psutils \
-      systemd && \
+      systemd \
+      x11-xserver-utils && \
     env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
       gnome-session && \
     env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
