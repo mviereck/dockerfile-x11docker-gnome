@@ -6,7 +6,7 @@
 #
 # Examples: 
 #  - Run desktop:
-#      x11docker --desktop --gpu --init=systemd -- x11docker/gnome
+#      x11docker --desktop --init=systemd -- x11docker/gnome
 #  - Run single application:
 #      x11docker x11docker/gnome gedit
 #
@@ -29,10 +29,21 @@
 #  - gnome-usage crashes with a segfault.
 #  - Wayland setups do not work.
 
-FROM ubuntu:20.04
-
+FROM debian:buster
 ENV LANG en_US.UTF-8
+ENV SHELL=/bin/bash
 
+# cleanup script for use after apt-get
+RUN echo '#! /bin/sh\n\
+env DEBIAN_FRONTEND=noninteractive apt-get autoremove -y\n\
+apt-get clean\n\
+find /var/lib/apt/lists -type f -delete\n\
+find /var/cache -type f -delete\n\
+find /var/log -type f -delete\n\
+exit 0\n\
+' > /cleanup && chmod +x /cleanup
+
+# basics
 RUN apt-get update && \
     env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
       locales && \
@@ -47,18 +58,43 @@ RUN apt-get update && \
       psutils \
       systemd \
       x11-xserver-utils && \
+    /cleanup
+
+# Gnome 3
+RUN apt-get update && \
     env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
       gnome-session && \
+    /cleanup
+
+# Gnome 3 apps
+RUN apt-get update && \
     env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
       cheese \
       gedit \
       gnome-control-center \
+      gnome-system-monitor \
       gnome-terminal \
       gnome-tweak-tool \
       nautilus && \
-    env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-      gnome-shell-extension-dash-to-panel \
-      gnome-shell-extension-desktop-icons \
-      gnome-shell-extension-weather
+    /cleanup
 
-CMD gnome-session
+# Gnome Shell extensions
+RUN apt-get update && \
+    env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+      gnome-shell-extension* && \
+    /cleanup
+
+# Workaround to get gnome-session running. 
+# gnome-session fails if started directly. Running gnome-shell only works, but lacks configuration support.
+RUN apt-get update && \
+    env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+      guake && \
+    rm /usr/share/applications/guake.desktop /usr/share/applications/guake-prefs.desktop && \
+    echo "#! /bin/bash\n\
+guake -e gnome-session\n\
+while pgrep gnome-shell; do sleep 1 ; done\n\
+" >/usr/local/bin/startgnome && \
+    chmod +x /usr/local/bin/startgnome && \
+    /cleanup
+
+CMD /usr/local/bin/startgnome

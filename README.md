@@ -1,11 +1,11 @@
 # x11docker/gnome
-Gnome 3 desktop in Docker image.
+Gnome 3 desktop in Docker image. (Experimental)
 
  - Run Gnome 3 desktop in a Docker container. 
  - Use [x11docker on github](https://github.com/mviereck/x11docker) to run GUI applications and desktop environments in docker containers.
 
 # Command examples
- - Full desktop: `x11docker --desktop --gpu --init=systemd -- x11docker/gnome`
+ - Full desktop: `x11docker --desktop --init=systemd -- x11docker/gnome`
  - Single application: `x11docker x11docker/gnome nautilus`
 
 # Options
