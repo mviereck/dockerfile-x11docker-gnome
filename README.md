@@ -10,12 +10,12 @@ Gnome 3 desktop in Docker image. (Experimental)
 
 # Options
  - Persistent home folder stored on host with   `--home`
- - Shared host folder with                      `--sharedir DIR`
+ - Shared host folder with                      `--share DIR`
  - Hardware acceleration with option            `--gpu`
  - Clipboard sharing with option                `--clipboard`
  - Sound support with option                    `--alsa`
  - With pulseaudio in image, sound support with `--pulseaudio`
- - Language setting with                        `--lang=$LANG`
+ - Language setting with                        `--lang [=$LANG]`
  - Printing over CUPS with                      `--printer`
  - Webcam support with                          `--webcam`
 

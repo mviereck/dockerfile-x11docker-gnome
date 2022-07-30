@@ -84,17 +84,4 @@ RUN apt-get update && \
       gnome-shell-extension* && \
     /cleanup
 
-# Workaround to get gnome-session running. 
-# gnome-session fails if started directly. Running gnome-shell only works, but lacks configuration support.
-RUN apt-get update && \
-    env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-      guake && \
-    rm /usr/share/applications/guake.desktop /usr/share/applications/guake-prefs.desktop && \
-    echo "#! /bin/bash\n\
-guake -e gnome-session\n\
-while pgrep gnome-shell; do sleep 1 ; done\n\
-" >/usr/local/bin/startgnome && \
-    chmod +x /usr/local/bin/startgnome && \
-    /cleanup
-
-CMD /usr/local/bin/startgnome
+CMD gnome-shell
